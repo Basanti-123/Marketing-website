@@ -10,6 +10,8 @@ const indexRouter = require("./routes");
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+app.use(express.static("Public"));
+
 app.use("/", express.json());
 app.use("/", indexRouter);
 
