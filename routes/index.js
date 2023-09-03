@@ -1,4 +1,5 @@
 const { request } = require("express");
+const mailservice = require("../services/mailer")
 
 const router = require("express").Router();
 
@@ -22,23 +23,34 @@ const router = require("express").Router();
 // });
 
 router.get("/", (req, res) => {
-  res.render("index", { title: "Basanti" });
+  res.render("index", { title: "Basanti Portfolio", route:"req.originalUrl" });
 });
 
 router.get("/product", (req, res) => {
-  res.render("product");
+  res.render("product", { title: "Basanti Portfolio", route:"req.originalUrl" });
 });
 
 router.get("/about", (req, res) => {
-  res.render("about");
+  res.render("about",{title: "Basanti Portfolio", route:"req.originalUrl"} );
 });
 
 router.get("/contact", (req, res) => {
-  res.render("contact");
+  res.render("contact", { title: "Basanti Portfolio", route:"req.originalUrl" });
 });
 
 router.get("/testimonial", (req, res) => {
-  res.render("testimonial");
+  res.render("testimonial", { title: "Basanti Portfolio", route:"req.originalUrl" });
 });
+
+router.post("/contact", async(req,res)=>{
+  const data = req.body;
+  const response = await mailservice.mailer({to:"bnagari154@gmail.com", data})
+
+let message;
+  if (response)
+  message= "Form received";
+else message = "Something went worng!!";
+res.json({data:  message});
+})
 
 module.exports = router;
